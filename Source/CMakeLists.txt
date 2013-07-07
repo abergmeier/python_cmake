@@ -404,6 +404,9 @@ target_link_libraries(CMakeLib cmsys
   ${CMAKE_TAR_LIBRARIES} ${CMAKE_COMPRESS_LIBRARIES}
   ${CMAKE_CURL_LIBRARIES} )
 
+#Build Python support
+add_subdirectory(python)
+
 # On Apple we need CoreFoundation
 if(APPLE)
   target_link_libraries(CMakeLib "-framework CoreFoundation")
