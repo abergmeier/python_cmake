@@ -64,12 +64,18 @@ link_libraries( PyObject* self, PyObject* args ) {
 	return nullptr;
 }
 
+PyObject*
+set_target_libraries( PyObject* self, PyObject* args ) {
+	return nullptr;
+}
+
 #if 0
 	{ "compile_definitions", target::compile_definitions, METH_VARARGS, "" },
 	{ "compile_options"    , target::compile_options    , METH_VARARGS, "" },
 	{ "depend"             , target::depend             , METH_VARARGS, "" },
 	{ "include_directories", target::include_directories, METH_VARARGS, "" },
 	{ "link_libraries"     , target::link_libraries     , METH_VARARGS, "" },
+	{ "set_target_properties", target::set_target_properties, METH_VARARGS, "" },
 #endif
 
 
