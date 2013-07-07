@@ -9,7 +9,7 @@
 using namespace cm::py::target;
 
 PyObject*
-compile_definitions( PyObject* self, PyObject* args ) {
+cm::py::target::compile_definitions( PyObject* self, PyObject* args ) {
 #if 0
 	const char* name;
 	PyObject* languageList;
@@ -45,38 +45,92 @@ compile_definitions( PyObject* self, PyObject* args ) {
 }
 
 PyObject*
-compile_options( PyObject* self, PyObject* args ) {
+cm::py::target::compile_options( PyObject* self, PyObject* args ) {
 	return nullptr;
 }
 
 PyObject*
-depend( PyObject* self, PyObject* args ) {
+cm::py::target::depend( PyObject* self, PyObject* args ) {
 	return nullptr;
 }
 
 PyObject*
-include_directories( PyObject* self, PyObject* args ) {
+cm::py::target::include_directories( PyObject* self, PyObject* args ) {
 	return nullptr;
 }
 
 PyObject*
-link_libraries( PyObject* self, PyObject* args ) {
+cm::py::target::link_libraries( PyObject* self, PyObject* args ) {
 	return nullptr;
 }
 
 PyObject*
-set_target_libraries( PyObject* self, PyObject* args ) {
+cm::py::target::set_properties( PyObject* self, PyObject* args ) {
 	return nullptr;
 }
 
-#if 0
-	{ "compile_definitions", target::compile_definitions, METH_VARARGS, "" },
-	{ "compile_options"    , target::compile_options    , METH_VARARGS, "" },
-	{ "depend"             , target::depend             , METH_VARARGS, "" },
-	{ "include_directories", target::include_directories, METH_VARARGS, "" },
-	{ "link_libraries"     , target::link_libraries     , METH_VARARGS, "" },
-	{ "set_target_properties", target::set_target_properties, METH_VARARGS, "" },
-#endif
+namespace {
+	PyMethodDef METHODS[] = {
+		{ "compile_definitions", compile_definitions, METH_VARARGS, "Add compile definitions to Target"     },
+		{ "compile_options"    , compile_options    , METH_VARARGS, "Add compile options to Target"         },
+		{ "depend"             , depend             , METH_VARARGS, "Add dependencies for Target"           },
+		{ "include_directories", include_directories, METH_VARARGS, "Add include directories for Target"    },
+		{ "link_libraries"     , link_libraries     , METH_VARARGS, "Link additional libraries with Target" },
+		{ "set_properties"     , set_properties     , METH_VARARGS, "Add properties to Target"              }
+	};
+
+	auto Library_type = PyTypeObject{
+		PyVarObject_HEAD_INIT(NULL, 0)
+		"cmake.Target", // tp_name For printing, in format "<module>.<name>"
+		sizeof(Target), // tp_basicsize
+		0                 , // tp_itemsize /* For allocation */
+		nullptr           , // tp_dealloc
+		nullptr           , // tp_print
+		nullptr           , // tp_getattr
+		nullptr           , // tp_setattr
+		nullptr           , // tp_reserved formerly known as tp_compare
+		nullptr           , // tp_repr
+		nullptr           , // tp_as_number
+		nullptr           , // tp_as_sequence
+		nullptr           , // tp_as_mapping
+		nullptr           , // tp_hash
+		nullptr           , // tp_call
+		nullptr           , // tp_str
+		nullptr           , // tp_getattro
+		nullptr           , // tp_setattro
+		nullptr           , // tp_as_buffer
+		Py_TPFLAGS_DEFAULT, // tp_flags
+		"CMake Target objects", // tp_doc Documentation string
+		nullptr , // tp_traverse
+		nullptr , // tp_clear
+		nullptr , // tp_richcompare
+		0       , // tp_weaklistoffset
+		nullptr , // tp_iter
+		nullptr , // tp_iternext
+		METHODS , // tp_methods
+		nullptr , // tp_members
+		nullptr , // tp_getset
+		nullptr , // tp_base;
+		nullptr , // tp_dict
+		nullptr , // tp_descr_get
+		nullptr , // tp_descr_set
+		0       , // tp_dictoffset
+		nullptr , // tp_init
+		nullptr , // tp_alloc
+		nullptr , // tp_new
+		nullptr , // tp_free
+		nullptr , // tp_is_gc
+		nullptr , // tp_bases
+		nullptr , // tp_mro
+		nullptr , // tp_cache
+		nullptr , // tp_subclasses
+		nullptr , // tp_weaklist
+		nullptr , // tp_del
+
+		1 // tp_version_tag
+	};
+} // namespace
+
 
 
 
