@@ -7,7 +7,8 @@ set(PYTHON_SRCS
 	${CMake_SOURCE_DIR}/Source/python/set_variable.cpp
 	${CMake_SOURCE_DIR}/Source/python/target.cpp
 	${CMake_SOURCE_DIR}/Source/python/global.cpp
-
+	${CMake_SOURCE_DIR}/Source/python/executable.cpp
+	${CMake_SOURCE_DIR}/Source/python/library.cpp
 )
 
 add_library(PythonCMakeLib MODULE ${PYTHON_SRCS})
