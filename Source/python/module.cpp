@@ -1,6 +1,8 @@
 #include "include.hpp"
 #include "set_variable.hpp"
 #include "project.hpp"
+#include "library.hpp"
+#include "executable.hpp"
 #include "target.hpp"
 
 namespace cm {
@@ -8,9 +10,11 @@ namespace cm {
 		namespace module {
 			PyMethodDef METHODS[] = {
 
-				{ "project", create_project    , METH_VARARGS, "Execute a shell command."},
-				{ "include", include_cmake_file, METH_VARARGS, ""},
-				{ "set"    , set_variable      , METH_VARARGS, ""},
+				{ "project"   , create_project    , METH_VARARGS, "Create a new project."},
+				{ "include"   , include_cmake_file, METH_VARARGS, "Include a CMake script file."},
+				{ "set"       , set_variable      , METH_VARARGS, "Set a variable."},
+				{ "library"   , add_library       , METH_VARARGS, "Add a library."},
+				{ "executable", add_executable    , METH_VARARGS, "Add a executable."},
 
 				{ nullptr, nullptr, 0, nullptr }        /* Sentinel */
 			};
