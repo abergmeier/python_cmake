@@ -99,7 +99,7 @@ namespace {
 		nullptr           , // tp_getattro
 		nullptr           , // tp_setattro
 		nullptr           , // tp_as_buffer
-		Py_TPFLAGS_DEFAULT, // tp_flags
+		Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, // tp_flags
 		"CMake Target objects", // tp_doc Documentation string
 		nullptr , // tp_traverse
 		nullptr , // tp_clear
