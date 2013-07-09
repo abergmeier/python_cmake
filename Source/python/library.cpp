@@ -61,8 +61,53 @@ namespace {
 }
 
 PyObject*
-add_library( PyObject*, PyObject* args ) {
+add_library( PyObject*, PyObject* args, PyObject* keywords ) {
 
-	return static_cast<PyObject*>( PyObject_New(Library, &Library_type) );
+	const char* name;
+	const char* library_type = nullptr;
+	int exclude_from_all = 0;
+	PyObject* sources;
+
+	static const char* kw_list[] = { "type", "sources", "exclude_from_all", nullptr };
+
+	if( !PyArg_ParseTupleAndKeywords(args, keywords, "s|$ZO!isp",
+	// ugly workaround for messed up interface approaching
+	                                 const_cast<char**>(kw_list),
+	// ugly workaround done
+	                                 &name, &library_type, &PyList_Type,
+	                                 &sources, &exclude_from_all) )
+		return nullptr;
+
+	auto arguments = [&]() {
+		auto strArgs = cm::arg_type{ {name} };
+		{
+			auto stringType = [&]() -> std::string {
+				if( library_type )
+					return { library_type };
+				else
+					return {};
+			}();
+
+			if( stringType == "STATIC" || stringType == "SHARED"
+			 || stringType == "MODULE" )
+				strArgs.push_back( std::move(stringType) );
+		}
+
+		if( exclude_from_all == 1 )
+			strArgs.emplace_back( "EXCLUDE_FROM_ALL" );
+
+		auto listCount = PyList_Size( sources );
+
+		for( auto i = 0; i < listCount; ++i ) {
+			// grab the string object from the next element of the list
+			auto listItem = PyList_GetItem( sources, i); // Can't fail
+			// make it a string
+			strArgs.emplace_back( PyUnicode_AsUTF8( listItem ) );
+		}
+
+		return strArgs;
+	}();
+
+	return PyObject_New( Library, &Library_type );
 }
 

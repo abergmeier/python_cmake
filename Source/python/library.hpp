@@ -5,7 +5,7 @@
 
 namespace cm {
 	namespace py {
-		extern PyObject* add_library( PyObject*, PyObject* args );
+		extern PyObject* add_library( PyObject*, PyObject* args, PyObject* keywords );
 	} // namespace py
 } // namespace cm
 
