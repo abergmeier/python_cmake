@@ -32,11 +32,25 @@ namespace cm {
 			};
 		} // namespace module
 
-		PyMODINIT_FUNC
-		initcmake() {
-			return PyModule_Create( &module::INTERFACE );
-		}
 	} // namespace py
 } // namespace cm
 
+
+PyMODINIT_FUNC
+PyInit_cmake() {
+#if 0
+	if( PyType_Ready(&NoddyType) < 0 )
+		return NULL;
+#endif
+
+	auto module = PyModule_Create( &cm::py::module::INTERFACE );
+
+	if( !module )
+		return nullptr;
+#if 0
+	Py_INCREF(&NoddyType);
+	PyModule_AddObject(m, "Noddy", (PyObject *)&NoddyType);
+#endif
+	return module;
+}
 
