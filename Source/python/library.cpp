@@ -6,6 +6,9 @@ using namespace cm::py;
 
 namespace {
 	struct Library : public target::Target {
+		Library() noexcept;
+	private:
+		cmAddLibraryCommand _add_command;
 	};
 
 	auto Library_type = PyTypeObject{
@@ -61,7 +64,7 @@ namespace {
 }
 
 PyObject*
-add_library( PyObject*, PyObject* args, PyObject* keywords ) {
+add_library( PyObject* self, PyObject* args, PyObject* keywords ) {
 
 	const char* name;
 	const char* library_type = nullptr;
@@ -115,6 +118,13 @@ add_library( PyObject*, PyObject* args, PyObject* keywords ) {
 		return strArgs;
 	}();
 
-	return PyObject_New( Library, &Library_type );
+	auto library = CM_PY_NEW( Library );
+
+	return library;
+}
+
+Library::Library() noexcept:
+	_add_command(), target::Target( _add_command )
+{
 }
 
