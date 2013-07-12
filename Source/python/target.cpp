@@ -1,4 +1,5 @@
 #include "target.hpp"
+#include "makefile.hpp"
 #include "../cmTargetCompileDefinitionsCommand.h"
 #include "../cmTargetCompileOptionsCommand.h"
 #include "../cmTargetDepend.h"
@@ -131,6 +132,26 @@ namespace {
 	};
 } // namespace
 
+void
+Target::init( PyObject& cmake, const cm::arg_type& args ) {
+	cmExecutionStatus status;
 
+	auto& makefile = [&]() -> cmMakefile& {
+		auto makefileWrapper = PyObject_GetAttr( &cmake, PyUnicode_FromString("makefile") );
+		return static_cast<cm::py::Makefile*>(makefileWrapper)->file;
+	}();
+
+	if( _command.IsDiscouraged() )
+		return; // Ignore for now
+
+	_command.SetMakefile( &makefile );
+
+	// We are not expanding input for now
+	// bool success = _command.InvokeInitialPass( args, status );
+
+	auto success = _command.InitialPass( args, status );
+	if( _command.HasFinalPass() )
+		_command.FinalPass();
+}
 
 

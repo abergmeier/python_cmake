@@ -2,6 +2,7 @@
 #define _CMAKE_PYTHON_TARGET_HPP_
 
 #include "includes.hpp"
+#include "../cmCommand.h"
 
 namespace cm {
 	namespace py {
@@ -14,6 +15,11 @@ namespace cm {
 			extern PyObject* set_properties     ( PyObject* self, PyObject* args );
 
 			struct Target : public PyObject {
+			public:
+				Target( cmCommand& command );
+				void init( PyObject& cmake, const cm::arg_type& args );
+			protected:
+				cmCommand& _command;
 			};
 		} // namespace target
 	} // namespace py
