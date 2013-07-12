@@ -25,5 +25,13 @@ namespace cm {
 	} // namespace py
 } // namespace cm
 
+#define	CM_PY_NEW( xxx ) \
+	[&]() { \
+		auto obj = PyObject_New( xxx, &xxx##_type );\
+		new (obj) xxx(); \
+		obj->init( *self, arguments );\
+		return obj; \
+	}()
+
 #endif //_CMAKE_PYTHON_TARGET_HPP_
 
