@@ -1,15 +1,22 @@
 find_package(PythonLibs REQUIRED)
 
-set(PYTHON_SRCS
-	${CMake_SOURCE_DIR}/Source/python/include.cpp
-	${CMake_SOURCE_DIR}/Source/python/module.cpp
-	${CMake_SOURCE_DIR}/Source/python/project.cpp
-	${CMake_SOURCE_DIR}/Source/python/set_variable.cpp
-	${CMake_SOURCE_DIR}/Source/python/target.cpp
-	${CMake_SOURCE_DIR}/Source/python/global.cpp
-	${CMake_SOURCE_DIR}/Source/python/executable.cpp
-	${CMake_SOURCE_DIR}/Source/python/library.cpp
+set(PYTHON_SRCS_TEMPLATE
+	include
+	project
+	set_variable
+	target
+	global
+	executable
+	library
+	makefile
 )
+
+foreach( src ${PYTHON_SRCS_TEMPLATE} )
+	set( PYTHON_SRCS ${PYTHON_SRCS} ${CMake_SOURCE_DIR}/Source/python/${src}.cpp )
+	set( PYTHON_SRCS ${PYTHON_SRCS} ${CMake_SOURCE_DIR}/Source/python/${src}.hpp )
+endforeach()
+
+set( PYTHON_SRCS ${PYTHON_SRCS} ${CMake_SOURCE_DIR}/Source/python/module.cpp )
 
 add_library(PythonCMakeLib MODULE ${PYTHON_SRCS})
 target_compile_definitions(PythonCMakeLib PUBLIC "${PYTHON_DEFINITIONS}" )
