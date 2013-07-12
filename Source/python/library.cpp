@@ -80,6 +80,7 @@ add_library( PyObject*, PyObject* args, PyObject* keywords ) {
 
 	auto arguments = [&]() {
 		auto strArgs = cm::arg_type{ {name} };
+		strArgs.reserve( strArgs.size() + 2 );
 		{
 			auto stringType = [&]() -> std::string {
 				if( library_type )
@@ -102,6 +103,8 @@ add_library( PyObject*, PyObject* args, PyObject* keywords ) {
 
 		auto listCount = PyList_Size( sources );
 
+		// Prevent multiple allocations
+		strArgs.reserve( strArgs.size() + listCount );
 		for( auto i = 0; i < listCount; ++i ) {
 			// grab the string object from the next element of the list
 			auto listItem = PyList_GetItem( sources, i); // Can't fail
