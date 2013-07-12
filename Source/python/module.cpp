@@ -21,15 +21,15 @@ namespace cm {
 			};
 
 			auto INTERFACE = PyModuleDef{
-				PyModuleDef_HEAD_INIT,
-				"cmake",
-				nullptr,
-				-1,
-				METHODS,
-				nullptr,
-				nullptr,
-				nullptr,
-				nullptr
+				PyModuleDef_HEAD_INIT, // m_base
+				"cmake", // m_name
+				nullptr, // m_doc
+				-1,      // m_size
+				METHODS, // m_methods
+				nullptr, // m_reload
+				nullptr, // m_traverse
+				nullptr, // m_clear
+				nullptr  // m_free
 			};
 		} // namespace module
 	} // namespace py
