@@ -88,8 +88,12 @@ add_library( PyObject*, PyObject* args, PyObject* keywords ) {
 					return {};
 			}();
 
-			if( stringType == "STATIC" || stringType == "SHARED"
-			 || stringType == "MODULE" )
+			static const auto STATIC = std::string{ "STATIC" };
+			static const auto SHARED = std::string{ "SHARED" };
+			static const auto MODULE = std::string{ "MODULE" };
+
+			if( stringType == STATIC || stringType == SHARED
+			 || stringType == MODULE )
 				strArgs.push_back( std::move(stringType) );
 		}
 
