@@ -8,8 +8,21 @@
 
 using namespace cm::py::target;
 
+namespace {
+	std::string target_name( PyObject& object ) {
+		auto& target = static_cast<Target&>( object );
+		return { target.name() };
+	}
+
+	cmMakefile& target_makefile( PyObject& object ) {
+		auto& target = static_cast<Target&>( object );
+		return target.makefile();
+	}
+}
+
 PyObject*
 cm::py::target::compile_definitions( PyObject* self, PyObject* args ) {
+	auto name = target_name( *self );
 #if 0
 	const char* name;
 	PyObject* languageList;
@@ -46,16 +59,19 @@ cm::py::target::compile_definitions( PyObject* self, PyObject* args ) {
 
 PyObject*
 cm::py::target::compile_options( PyObject* self, PyObject* args ) {
+	auto name = target_name( *self );
 	return nullptr;
 }
 
 PyObject*
 cm::py::target::depend( PyObject* self, PyObject* args ) {
+	auto name = target_name( *self );
 	return nullptr;
 }
 
 PyObject*
 cm::py::target::include_directories( PyObject* self, PyObject* args ) {
+	auto name = target_name( *self );
 	return nullptr;
 }
 
