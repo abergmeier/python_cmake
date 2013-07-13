@@ -6,6 +6,13 @@
 
 namespace cm {
 	namespace py {
+
+		template <typename T>
+		T* make_pointer( PyTypeObject& type ) {
+			auto obj = PyObject_New( T, &type );
+			new (obj) T();
+			return obj;
+		}
 		namespace target {
 			extern PyObject* compile_definitions( PyObject* self, PyObject* args );
 			extern PyObject* compile_options    ( PyObject* self, PyObject* args );
