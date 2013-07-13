@@ -30,7 +30,7 @@ namespace cm {
 			extern PyObject* compile_options    ( PyObject* self, PyObject* args );
 			extern PyObject* depend             ( PyObject* self, PyObject* args );
 			extern PyObject* include_directories( PyObject* self, PyObject* args );
-			extern PyObject* link_libraries     ( PyObject* self, PyObject* args );
+			extern PyObject* link_libraries     ( PyObject* self, PyObject* args, PyObject* keywords );
 			extern PyObject* set_properties     ( PyObject* self, PyObject* args );
 
 			struct Target : public PyObject {

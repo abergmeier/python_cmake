@@ -61,7 +61,7 @@ cm::py::target::include_directories( PyObject* self, PyObject* args ) {
 }
 
 PyObject*
-cm::py::target::link_libraries( PyObject* self, PyObject* args ) {
+cm::py::target::link_libraries( PyObject* self, PyObject* args, PyObject* keywords ) {
 	return nullptr;
 }
 
@@ -76,7 +76,7 @@ namespace {
 		{ "compile_options"    , compile_options    , METH_VARARGS, "Add compile options to Target"         },
 		{ "depend"             , depend             , METH_VARARGS, "Add dependencies for Target"           },
 		{ "include_directories", include_directories, METH_VARARGS, "Add include directories for Target"    },
-		{ "link_libraries"     , link_libraries     , METH_VARARGS, "Link additional libraries with Target" },
+		{ "link_libraries"     , reinterpret_cast<PyCFunction>(link_libraries) , METH_VARARGS, "Link additional libraries with Target" },
 		{ "set_properties"     , set_properties     , METH_VARARGS, "Add properties to Target"              }
 	};
 
