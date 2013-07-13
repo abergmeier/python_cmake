@@ -13,6 +13,9 @@ namespace cm {
 			new (obj) T();
 			return obj;
 		}
+
+		extern std::vector<std::string> to_vector( PyObject* list );
+
 		namespace target {
 			extern PyObject* compile_definitions( PyObject* self, PyObject* args );
 			extern PyObject* compile_options    ( PyObject* self, PyObject* args );

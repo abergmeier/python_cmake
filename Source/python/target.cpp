@@ -131,6 +131,25 @@ namespace {
 		1 // tp_version_tag
 	};
 } // namespace
+std::vector<std::string>
+cm::py::to_vector( PyObject* list ) {
+
+	auto result = std::vector<std::string>{};
+
+	auto listCount = PyList_Size( list );
+
+	// Prevent multiple allocations
+	result.reserve( result.size() + listCount );
+
+	for( Py_ssize_t i = 0; i < listCount; ++i ) {
+		// grab the string object from the next element of the list
+		auto listItem = PyList_GetItem( list, i); // Can't fail
+		// make it a string
+		result.emplace_back( PyUnicode_AsUTF8( listItem ) );
+	}
+
+	return std::move( result );
+}
 
 void
 Target::init( PyObject& cmake, const cm::arg_type& args ) {
