@@ -16,6 +16,15 @@ namespace cm {
 
 		extern std::vector<std::string> to_vector( PyObject* list );
 
+		template <typename C1, typename C2>
+		void
+		merge( C1& to, C2&& from ) {
+			to.insert( to.end(),
+			           std::make_move_iterator(from.begin()),
+			           std::make_move_iterator(from.end())
+			);
+		}
+
 		namespace target {
 			extern PyObject* compile_definitions( PyObject* self, PyObject* args );
 			extern PyObject* compile_options    ( PyObject* self, PyObject* args );
