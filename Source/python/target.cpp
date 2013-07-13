@@ -77,6 +77,50 @@ cm::py::target::include_directories( PyObject* self, PyObject* args ) {
 
 PyObject*
 cm::py::target::link_libraries( PyObject* self, PyObject* args, PyObject* keywords ) {
+
+	PyObject* src;
+	PyObject* general;
+	PyObject* debug;
+	PyObject* optimized;
+
+	static const char* kw_list[] = { "LIBS", "GENERAL", "DEBUG", "OPTIMIZED", nullptr };
+
+	if( !PyArg_ParseTupleAndKeywords(args, keywords, "s|$O!isO!isO!isO!is",
+	// ugly workaround for messed up interface approaching
+	                                 const_cast<char**>(kw_list),
+	// ugly workaround done
+	                                 &PyList_Type, &src,
+	                                 &PyList_Type, &general,
+	                                 &PyList_Type, &debug,
+	                                 &PyList_Type, &optimized) )
+		return nullptr;
+
+	auto arguments = [&]() {
+		auto strArgs = cm::arg_type{ target_name(*self) };
+
+		merge( strArgs, to_vector(src) );
+		merge( strArgs, to_vector(general) );
+
+		auto debug_vector = to_vector( debug );
+
+		if( !debug_vector.empty() ) {
+			strArgs.emplace_back( "debug");
+
+			merge( strArgs, debug_vector );
+		}
+
+		auto opt_vector = to_vector( optimized );
+
+		if( !opt_vector.empty() ) {
+			strArgs.emplace_back( "optimized" );
+
+			merge( strArgs, opt_vector );
+		}
+
+		return strArgs;
+	}();
+
+	execute<cmTargetLinkLibrariesCommand>( target_makefile(*self), arguments );
 	return nullptr;
 }
 
