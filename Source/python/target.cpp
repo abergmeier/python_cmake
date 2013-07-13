@@ -1,5 +1,4 @@
 #include "target.hpp"
-#include "makefile.hpp"
 #include "../cmTargetCompileDefinitionsCommand.h"
 #include "../cmTargetCompileOptionsCommand.h"
 #include "../cmTargetDepend.h"
@@ -79,58 +78,59 @@ namespace {
 		{ "link_libraries"     , reinterpret_cast<PyCFunction>(link_libraries) , METH_VARARGS, "Link additional libraries with Target" },
 		{ "set_properties"     , set_properties     , METH_VARARGS, "Add properties to Target"              }
 	};
+}
 
-	auto Library_type = PyTypeObject{
-		PyVarObject_HEAD_INIT(NULL, 0)
-		"cmake.Target", // tp_name For printing, in format "<module>.<name>"
-		sizeof(Target), // tp_basicsize
-		0                 , // tp_itemsize /* For allocation */
-		nullptr           , // tp_dealloc
-		nullptr           , // tp_print
-		nullptr           , // tp_getattr
-		nullptr           , // tp_setattr
-		nullptr           , // tp_reserved formerly known as tp_compare
-		nullptr           , // tp_repr
-		nullptr           , // tp_as_number
-		nullptr           , // tp_as_sequence
-		nullptr           , // tp_as_mapping
-		nullptr           , // tp_hash
-		nullptr           , // tp_call
-		nullptr           , // tp_str
-		nullptr           , // tp_getattro
-		nullptr           , // tp_setattro
-		nullptr           , // tp_as_buffer
-		Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, // tp_flags
-		"CMake Target objects", // tp_doc Documentation string
-		nullptr , // tp_traverse
-		nullptr , // tp_clear
-		nullptr , // tp_richcompare
-		0       , // tp_weaklistoffset
-		nullptr , // tp_iter
-		nullptr , // tp_iternext
-		METHODS , // tp_methods
-		nullptr , // tp_members
-		nullptr , // tp_getset
-		nullptr , // tp_base;
-		nullptr , // tp_dict
-		nullptr , // tp_descr_get
-		nullptr , // tp_descr_set
-		0       , // tp_dictoffset
-		nullptr , // tp_init
-		nullptr , // tp_alloc
-		nullptr , // tp_new
-		nullptr , // tp_free
-		nullptr , // tp_is_gc
-		nullptr , // tp_bases
-		nullptr , // tp_mro
-		nullptr , // tp_cache
-		nullptr , // tp_subclasses
-		nullptr , // tp_weaklist
-		nullptr , // tp_del
+PyTypeObject cm::py::target::Target_type = PyTypeObject{
+	PyVarObject_HEAD_INIT(NULL, 0)
+	"cmake.Target", // tp_name For printing, in format "<module>.<name>"
+	sizeof(Target), // tp_basicsize
+	0                 , // tp_itemsize /* For allocation */
+	nullptr           , // tp_dealloc
+	nullptr           , // tp_print
+	nullptr           , // tp_getattr
+	nullptr           , // tp_setattr
+	nullptr           , // tp_reserved formerly known as tp_compare
+	nullptr           , // tp_repr
+	nullptr           , // tp_as_number
+	nullptr           , // tp_as_sequence
+	nullptr           , // tp_as_mapping
+	nullptr           , // tp_hash
+	nullptr           , // tp_call
+	nullptr           , // tp_str
+	nullptr           , // tp_getattro
+	nullptr           , // tp_setattro
+	nullptr           , // tp_as_buffer
+	Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, // tp_flags
+	"CMake Target objects", // tp_doc Documentation string
+	nullptr , // tp_traverse
+	nullptr , // tp_clear
+	nullptr , // tp_richcompare
+	0       , // tp_weaklistoffset
+	nullptr , // tp_iter
+	nullptr , // tp_iternext
+	METHODS , // tp_methods
+	nullptr , // tp_members
+	nullptr , // tp_getset
+	nullptr , // tp_base;
+	nullptr , // tp_dict
+	nullptr , // tp_descr_get
+	nullptr , // tp_descr_set
+	0       , // tp_dictoffset
+	nullptr , // tp_init
+	nullptr , // tp_alloc
+	nullptr , // tp_new
+	nullptr , // tp_free
+	nullptr , // tp_is_gc
+	nullptr , // tp_bases
+	nullptr , // tp_mro
+	nullptr , // tp_cache
+	nullptr , // tp_subclasses
+	nullptr , // tp_weaklist
+	nullptr , // tp_del
 
-		1 // tp_version_tag
-	};
-} // namespace
+	1 // tp_version_tag
+};
+
 std::vector<std::string>
 cm::py::to_vector( PyObject* list ) {
 
@@ -152,25 +152,19 @@ cm::py::to_vector( PyObject* list ) {
 }
 
 void
-Target::init( PyObject& cmake, const cm::arg_type& args ) {
-	cmExecutionStatus status;
+cm::py::execute( cmMakefile& makefile, cmCommand& command, const cm::arg_type& arguments ) {
 
-	auto& makefile = [&]() -> cmMakefile& {
-		auto makefileWrapper = PyObject_GetAttr( &cmake, PyUnicode_FromString("makefile") );
-		return static_cast<cm::py::Makefile*>(makefileWrapper)->file;
-	}();
-
-	if( _command.IsDiscouraged() )
+	if( command.IsDiscouraged() )
 		return; // Ignore for now
 
-	_command.SetMakefile( &makefile );
+	cmExecutionStatus status;
+
+	command.SetMakefile( &makefile );
 
 	// We are not expanding input for now
 	// bool success = _command.InvokeInitialPass( args, status );
 
-	auto success = _command.InitialPass( args, status );
-	if( _command.HasFinalPass() )
-		_command.FinalPass();
+	auto success = command.InitialPass( arguments, status );
+	if( command.HasFinalPass() )
+		command.FinalPass();
 }
-
-

@@ -5,10 +5,7 @@
 using namespace cm::py;
 
 namespace {
-	struct Library : public target::Target {
-		Library() noexcept;
-	private:
-		cmAddLibraryCommand _add_command;
+	class Library : public target::CommandTarget<cmAddLibraryCommand> {
 	};
 
 	auto Library_type = PyTypeObject{
@@ -33,31 +30,31 @@ namespace {
 		nullptr           , // tp_as_buffer
 		Py_TPFLAGS_DEFAULT, // tp_flags
 		"CMake Library objects", // tp_doc Documentation string
-		nullptr , // tp_traverse
-		nullptr , // tp_clear
-		nullptr , // tp_richcompare
-		0       , // tp_weaklistoffset
-		nullptr , // tp_iter
-		nullptr , // tp_iternext
-		nullptr , // tp_methods
-		nullptr , // tp_members
-		nullptr , // tp_getset
-		nullptr , // tp_base;
-		nullptr , // tp_dict
-		nullptr , // tp_descr_get
-		nullptr , // tp_descr_set
-		0       , // tp_dictoffset
-		nullptr , // tp_init
-		nullptr , // tp_alloc
-		nullptr , // tp_new
-		nullptr , // tp_free
-		nullptr , // tp_is_gc
-		nullptr , // tp_bases
-		nullptr , // tp_mro
-		nullptr , // tp_cache
-		nullptr , // tp_subclasses
-		nullptr , // tp_weaklist
-		nullptr , // tp_del
+		nullptr, // tp_traverse
+		nullptr, // tp_clear
+		nullptr, // tp_richcompare
+		0      , // tp_weaklistoffset
+		nullptr, // tp_iter
+		nullptr, // tp_iternext
+		nullptr, // tp_methods
+		nullptr, // tp_members
+		nullptr, // tp_getset
+		&target::Target_type, // tp_base
+		nullptr, // tp_dict
+		nullptr, // tp_descr_get
+		nullptr, // tp_descr_set
+		0      , // tp_dictoffset
+		nullptr, // tp_init
+		nullptr, // tp_alloc
+		nullptr, // tp_new
+		nullptr, // tp_free
+		nullptr, // tp_is_gc
+		nullptr, // tp_bases
+		nullptr, // tp_mro
+		nullptr, // tp_cache
+		nullptr, // tp_subclasses
+		nullptr, // tp_weaklist
+		nullptr, // tp_del
 
 		1 // tp_version_tag
 	};
@@ -104,27 +101,13 @@ add_library( PyObject* self, PyObject* args, PyObject* keywords ) {
 		if( exclude_from_all == 1 )
 			strArgs.emplace_back( "EXCLUDE_FROM_ALL" );
 
-		auto listCount = PyList_Size( sources );
-
-		// Prevent multiple allocations
-		strArgs.reserve( strArgs.size() + listCount );
-		for( auto i = 0; i < listCount; ++i ) {
-			// grab the string object from the next element of the list
-			auto listItem = PyList_GetItem( sources, i); // Can't fail
-			// make it a string
-			strArgs.emplace_back( PyUnicode_AsUTF8( listItem ) );
-		}
+		merge( strArgs, to_vector(sources) );
 
 		return strArgs;
 	}();
 
 	auto library = CM_PY_NEW( Library );
-
+	library->init( *self, arguments );
 	return library;
-}
-
-Library::Library() noexcept:
-	_add_command(), target::Target( _add_command )
-{
 }
 
