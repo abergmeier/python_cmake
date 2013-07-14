@@ -101,7 +101,7 @@ add_library( PyObject* self, PyObject* args, PyObject* keywords ) {
 		if( exclude_from_all == 1 )
 			strArgs.emplace_back( "EXCLUDE_FROM_ALL" );
 
-		merge( strArgs, to_vector(sources) );
+		cm::merge( strArgs, to_vector(sources) );
 
 		return strArgs;
 	}();
