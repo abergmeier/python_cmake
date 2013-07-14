@@ -16,6 +16,7 @@ foreach( src ${PYTHON_SRCS_TEMPLATE} )
 	set( PYTHON_SRCS ${PYTHON_SRCS} ${CMake_SOURCE_DIR}/Source/python/${src}.hpp )
 endforeach()
 
+set( PYTHON_SRCS ${PYTHON_SRCS} ${CMake_SOURCE_DIR}/Source/python/includes.hpp )
 set( PYTHON_SRCS ${PYTHON_SRCS} ${CMake_SOURCE_DIR}/Source/python/module.cpp )
 
 add_library(PythonCMakeLib MODULE ${PYTHON_SRCS})
