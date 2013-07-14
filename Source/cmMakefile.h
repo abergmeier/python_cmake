@@ -988,9 +988,11 @@ private:
   bool WarnUnused;
   bool CheckSystemVars;
 
+protected:
   // stack of list files being read
   std::deque<cmStdString> ListFileStack;
 
+private:
   // stack of commands being invoked.
   struct CallStackEntry
   {
@@ -1031,9 +1033,11 @@ private:
 
   bool CheckCMP0000;
 
+protected:
   // Enforce rules about CMakeLists.txt files.
   void EnforceDirectoryLevelRules();
 
+private:
   bool GeneratingBuildSystem;
 
 };
