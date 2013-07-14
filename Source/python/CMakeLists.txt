@@ -19,7 +19,7 @@ endforeach()
 set( PYTHON_SRCS ${PYTHON_SRCS} ${CMake_SOURCE_DIR}/Source/python/includes.hpp )
 set( PYTHON_SRCS ${PYTHON_SRCS} ${CMake_SOURCE_DIR}/Source/python/module.cpp )
 
-add_library(PythonCMakeLib MODULE ${PYTHON_SRCS})
+add_library(PythonCMakeLib SHARED ${PYTHON_SRCS})
 target_compile_definitions(PythonCMakeLib PUBLIC "${PYTHON_DEFINITIONS}" )
 # include dirs buggy in module
 #target_include_directories(PythonCMakeLib PUBLIC "${PYTHON_INCLUDE_DIRS}")
