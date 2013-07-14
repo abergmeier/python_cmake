@@ -8,6 +8,7 @@ namespace cm {
 	namespace py {
 		struct Makefile : public PyObject {
 			cmMakefile file;
+			static PyTypeObject create_type();
 		};
 	} // namespace py
 } // namespace cm
