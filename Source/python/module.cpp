@@ -35,8 +35,9 @@ namespace cm {
 	} // namespace py
 } // namespace cm
 
-namespace {
+using namespace cm::py;
 
+namespace {
 
 	auto Makefile_type = Makefile::create_type();
 }
