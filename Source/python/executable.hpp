@@ -5,7 +5,7 @@
 
 namespace cm {
 	namespace py {
-		extern PyObject* add_executable( PyObject*, PyObject* args );
+		extern PyObject* add_executable( PyObject*, PyObject* args, PyObject* keywords );
 	} // namespace py
 } // namespace cm
 

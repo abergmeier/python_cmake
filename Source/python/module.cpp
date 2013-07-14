@@ -14,8 +14,8 @@ namespace cm {
 				{ "project"   , create_project    , METH_VARARGS, "Create a new project."},
 				{ "include"   , include_cmake_file, METH_VARARGS, "Include a CMake script file."},
 				{ "set"       , set_variable      , METH_VARARGS, "Set a variable."},
-				{ "library"   , reinterpret_cast<PyCFunction>(add_library), METH_VARARGS | METH_KEYWORDS, "Add a library."},
-				{ "executable", add_executable    , METH_VARARGS, "Add a executable."},
+				{ "library"   , reinterpret_cast<PyCFunction>(add_library)   , METH_VARARGS | METH_KEYWORDS, "Add a library."},
+				{ "executable", reinterpret_cast<PyCFunction>(add_executable), METH_VARARGS | METH_KEYWORDS, "Add a executable."},
 
 				{ nullptr, nullptr, 0, nullptr } // Sentinel
 			};
