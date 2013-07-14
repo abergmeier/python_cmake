@@ -55,9 +55,6 @@ PyInit_cmake() {
 	if( !module )
 		return nullptr;
 
-	auto makefile = PyObject_New( cm::py::Makefile, &Makefile_type );
-
-	assert( PyModule_AddObject( module, "makefile", makefile) == 0 );
 #if 0
 	Py_INCREF(&NoddyType);
 	PyModule_AddObject(m, "Noddy", (PyObject *)&NoddyType);
