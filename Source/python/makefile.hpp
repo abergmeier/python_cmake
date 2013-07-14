@@ -6,8 +6,17 @@
 
 namespace cm {
 	namespace py {
+
+		class Build : public cmMakefile {
+		public:
+			bool ReadListFile( const char* filename_in, const char *external_in,
+							   std::string* fullPath );
+			bool configure( const char* filename_in, const char *external_in,
+							std::string* fullPath );
+		};
+
 		struct Makefile : public PyObject {
-			cmMakefile file;
+			Build file;
 			static PyTypeObject create_type();
 		};
 	} // namespace py
