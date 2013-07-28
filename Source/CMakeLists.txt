@@ -399,6 +399,7 @@ endif()
 
 # create a library used by the command line and the GUI
 add_library(CMakeLib ${SRCS})
+set_target_properties(CMakeLib PROPERTIES POSITION_INDEPENDENT_CODE 1)
 target_link_libraries(CMakeLib cmsys
   ${CMAKE_EXPAT_LIBRARIES} ${CMAKE_ZLIB_LIBRARIES}
   ${CMAKE_TAR_LIBRARIES} ${CMAKE_COMPRESS_LIBRARIES}

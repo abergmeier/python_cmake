@@ -39,5 +39,6 @@ ENDFOREACH(name)
 
 
 ADD_LIBRARY(cmzlib ${ZLIB_SRCS})
+set_target_properties(cmzlib PROPERTIES POSITION_INDEPENDENT_CODE 1)
 
 INSTALL(FILES Copyright.txt DESTINATION ${CMake_DOC_DEST}/cmzlib)

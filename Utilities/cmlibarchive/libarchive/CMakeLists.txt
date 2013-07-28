@@ -149,4 +149,5 @@ ENDIF(WIN32 AND NOT CYGWIN)
 
 # CMake needs just one static "cmlibarchive" library.
 ADD_LIBRARY(cmlibarchive STATIC ${libarchive_SOURCES} ${include_HEADERS})
+set_target_properties(cmlibarchive PROPERTIES POSITION_INDEPENDENT_CODE 1)
 TARGET_LINK_LIBRARIES(cmlibarchive ${ADDITIONAL_LIBS})

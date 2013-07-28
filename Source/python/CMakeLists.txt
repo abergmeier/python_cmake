@@ -25,6 +25,8 @@ target_compile_definitions(PythonCMakeLib PUBLIC "${PYTHON_DEFINITIONS}" )
 #target_include_directories(PythonCMakeLib PUBLIC "${PYTHON_INCLUDE_DIRS}")
 target_include_directories(PythonCMakeLib PUBLIC /usr/include/python3.3m /usr/include/x86_64-linux-gnu/python3.3m)
 target_link_libraries     (PythonCMakeLib "${PYTHON_LIBRARIES}"             )
+target_link_libraries     (PythonCMakeLib CMakeLib )
+target_link_libraries     (PythonCMakeLib cmsys )
 set_target_properties     (PythonCMakeLib PROPERTIES COMPILE_FLAGS -std=c++11)
 
 # Main library
