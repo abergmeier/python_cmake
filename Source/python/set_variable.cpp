@@ -4,7 +4,7 @@
 using namespace cm::py;
 
 PyObject*
-set_variable( PyObject*, PyObject* args ) {
+cm::py::set_variable( PyObject*, PyObject* args ) {
 
 	const char* name;
 	const char* value;

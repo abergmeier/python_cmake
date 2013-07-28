@@ -4,7 +4,7 @@
 using namespace cm::py;
 
 PyObject*
-include_cmake_file( PyObject*, PyObject* args ) {
+cm::py::include_cmake_file( PyObject*, PyObject* args ) {
 
 	PyObject* optional;
 	PyObject* no_scope;

@@ -60,7 +60,7 @@ namespace {
 }
 
 PyObject*
-create_project( PyObject*, PyObject* args ) {
+cm::py::create_project( PyObject*, PyObject* args ) {
 
 	const char* name;
 	PyObject* languageList;

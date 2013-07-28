@@ -61,7 +61,7 @@ namespace {
 }
 
 PyObject*
-add_library( PyObject* self, PyObject* args, PyObject* keywords ) {
+cm::py::add_library( PyObject* self, PyObject* args, PyObject* keywords ) {
 
 	const char* name;
 	const char* library_type = nullptr;
