@@ -40,3 +40,5 @@ target_include_directories( PythonMainLib PUBLIC /usr/include/python3.3m /usr/in
 target_link_libraries     ( PythonMainLib "${PYTHON_LIBRARIES}" PythonCMakeLib )
 set_target_properties     ( PythonMainLib PROPERTIES COMPILE_FLAGS -std=c++11  )
 
+configure_file( pycmake ${CMAKE_BINARY_DIR}/pycmake COPYONLY )
+

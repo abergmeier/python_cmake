@@ -1,5 +1,17 @@
 #!/usr/bin/env python3
 
-import cmake
+import sys, ctypes
+
+sys.path.append( "Source/python" )
+sys.path.append( "." )
+
+ctypes.CDLL("libpython3.3m.so")
+ctypes.CDLL("libPythonCMakeLib.so")
+
+try:
+	import cmake_main
+except:
+	libdl = ctypes.CDLL("libPythonMainLib.so")
+	input("Press Enter to continue...")
 
 
